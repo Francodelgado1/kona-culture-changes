@@ -24,8 +24,15 @@
   --kona-header-height: 64px;      /* altura común para header y barra de anuncios, ajustable */
 }
 
-/* 1) Header: lo separamos de los bordes y le damos esquinas redondeadas */
-.js-head-main {
+/* 1) OJO: la barra de anuncios (.js-adbar) vive ADENTRO del <header
+      class="js-head-main">, junto al .container-fluid del logo+menú.
+      Por eso el efecto va sobre ese .container-fluid puntual y NO
+      sobre el header entero — así no rompemos el apilado normal
+      (adbar arriba, nav abajo) que ya trae el tema. */
+
+/* 2) Nav (logo + menú + iconos): lo separamos de los bordes,
+      esquinas redondeadas, y efecto vidrio con el violeta de marca */
+.js-head-main > .container-fluid {
   margin: 12px 16px 0;
   width: auto;
   border-radius: 18px;
@@ -34,10 +41,7 @@
   min-height: var(--kona-header-height);
   display: flex;
   align-items: center;
-}
 
-/* 2) Efecto vidrio esmerilado con el violeta de marca */
-.js-head-main {
   background-color: rgba(var(--kona-glass-tint), 0.55) !important;
   -webkit-backdrop-filter: blur(16px) saturate(160%);
   backdrop-filter: blur(16px) saturate(160%);
@@ -46,10 +50,10 @@
   transition: background-color 0.3s ease;
 }
 
-/* 3) Textos/íconos del header en blanco para que se lean sobre el vidrio */
-.js-head-main a,
-.js-head-main .menu-item,
-.js-head-main svg {
+/* 3) Textos/íconos del nav en blanco para que se lean sobre el vidrio */
+.js-head-main > .container-fluid a,
+.js-head-main > .container-fluid .menu-item,
+.js-head-main > .container-fluid svg {
   color: #ffffff;
   fill: #ffffff;
 }
