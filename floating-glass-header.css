@@ -1,0 +1,70 @@
+/* ============================================================
+   HEADER FLOTANTE CON EFECTO VIDRIO (GLASSMORPHISM) — KONA CULTURE
+   ============================================================
+   Qué hace:
+   1. Separa la barra de navegación (logo + menú) un poco de los
+      bordes de la plantilla, con esquinas redondeadas.
+   2. Le aplica un efecto "vidrio esmerilado" (blur + transparencia)
+      usando el violeta de marca que ya usás en la tienda (#52273b).
+   3. Deja la barra de anuncios (el marquee de arriba) tal cual está,
+      solo la empareja en altura con el nuevo header.
+
+   Cómo aplicarlo:
+   Panel de Tiendanube → Mi Tienda → Diseño → Personalizar plantilla
+   → "CSS extra" / "Agregar CSS" → pegá este código DESPUÉS de
+   cualquier otro CSS personalizado que ya tengas (así no lo pisa).
+
+   IMPORTANTE — confirmá un selector antes de pegar:
+   El selector de la barra de anuncios (".js-topbar" acá abajo) es
+   una suposición. Para confirmarlo: abrí tu tienda → F12 → clic
+   derecho sobre la barra de anuncios ("Más llevás, menos pagás...")
+   → Inspeccionar → fijate la clase/id del contenedor que la envuelve
+   y reemplazá ".js-topbar" por ese valor en las dos reglas donde
+   aparece.
+   ============================================================ */
+
+:root {
+  --kona-glass-tint: 82, 39, 59;   /* #52273b en formato R,G,B */
+  --kona-header-height: 64px;      /* altura común para header y topbar, ajustable */
+}
+
+/* 1) Header: lo separamos de los bordes y le damos esquinas redondeadas */
+#header {
+  margin: 12px 16px 0;
+  width: auto;
+  border-radius: 18px;
+  overflow: hidden;
+
+  height: var(--kona-header-height);
+  display: flex;
+  align-items: center;
+
+  /* si querés que quede pegado arriba al hacer scroll, descomentá: */
+  /* position: sticky; top: 10px; z-index: 100; */
+}
+
+/* 2) Efecto vidrio esmerilado con el violeta de marca */
+#header {
+  background-color: rgba(var(--kona-glass-tint), 0.55);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+  transition: background-color 0.3s ease;
+}
+
+/* 3) Textos/íconos del header en blanco para que se lean sobre el vidrio */
+#header a,
+#header .menu-item,
+#header svg {
+  color: #ffffff;
+  fill: #ffffff;
+}
+
+/* 4) Barra de anuncios: se mantiene igual, solo empareja su altura
+      con el header nuevo. CONFIRMÁ el selector antes de usar. */
+.js-topbar {
+  height: var(--kona-header-height);
+  display: flex;
+  align-items: center;
+}
