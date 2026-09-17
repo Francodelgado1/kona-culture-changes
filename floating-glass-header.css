@@ -5,10 +5,9 @@
    1. Convierte la barra de anuncios y la barra de navegación en
       dos barras flotantes: separadas de los bordes y con esquinas
       redondeadas.
-   2. Cada una CONSERVA su color original del panel de Tiendanube
-      (la de anuncios su color de acento, la de navegación el
-      "Color de fondo" de tu marca). No se toca ningún color ni el
-      color de los textos, así el menú se sigue leyendo igual.
+   2. Conserva los colores actuales (violeta de acento en anuncios,
+      #f8f6f3 en navegación) y no toca el color de los textos, así
+      el menú se sigue leyendo igual.
    3. Sube la imagen del home para que quede por detrás de las
       barras flotantes.
 
@@ -20,20 +19,15 @@
    NO toca el JS ni el "position" del header: conserva el sticky
    nativo del tema y su mismo comportamiento de scroll.
 
-   Todo el contenido (fotos del carrusel, textos, menú, logo,
-   mensajes de la barra de anuncios) se sigue editando normalmente
-   desde el panel de Tiendanube.
+   ------------------------------------------------------------
+   IMPORTANTE — SIN VARIABLES CSS
+   ------------------------------------------------------------
+   El campo de CSS de Tiendanube no conserva las variables
+   (:root { --x: ... }). Cuando una variable no resuelve, el
+   navegador descarta la declaración entera en silencio, así que
+   acá va TODO con valores literales. Si editás este archivo, no
+   introduzcas variables.
    ============================================================ */
-
-:root {
-  --kona-float-gap: 16px;      /* separación respecto a los bordes */
-  --kona-float-radius: 18px;   /* redondeo de las esquinas */
-
-  /* Cuánto sube la imagen del home para meterse detrás de las barras.
-     AJUSTÁ ESTE NÚMERO hasta que calce: si queda un hueco, subilo;
-     si la foto tapa demasiado, bajalo. */
-  --kona-header-pull: 150px;
-}
 
 /* ============================================================
    1) El header contenedor queda transparente, así entre las dos
@@ -50,34 +44,35 @@ body header.js-head-main {
 /* ============================================================
    2) BARRA DE ANUNCIOS FLOTANTE
    ============================================================
-   Mantiene su color original. El overflow: hidden es necesario
-   para que el texto en movimiento (marquee) respete el redondeo.
+   Su color violeta vive en este mismo elemento, así que se
+   conserva solo. El overflow: hidden es necesario para que el
+   texto en movimiento (marquee) respete el redondeo.
    ============================================================ */
 body header.js-head-main .js-adbar {
-  margin: 12px var(--kona-float-gap) 0 !important;
-  border-radius: var(--kona-float-radius) !important;
-  overflow: hidden;
+  margin: 12px 16px 0 !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
 }
 
 /* ============================================================
    3) BARRA DE NAVEGACIÓN FLOTANTE
    ============================================================
-   Mantiene su color de fondo original. El redondeo se aplica
-   también a la fila interna, porque según el tema el color de
-   fondo puede estar en cualquiera de las dos.
+   El color de fondo del menú venía del <header>, que ahora es
+   transparente — por eso hay que declararlo acá.
+
+   OJO: este #f8f6f3 es el "Color de fondo" de tu marca, copiado
+   del panel. Es el único valor duplicado: si algún día lo cambiás
+   en Tiendanube, actualizá también este número.
 
    IMPORTANTE: acá NO va overflow: hidden — recortaría los menús
    desplegables ("SHOP ALL ˅", "Info ˅").
    ============================================================ */
 body header.js-head-main > .container-fluid {
-  margin: 8px var(--kona-float-gap) 0 !important;
+  margin: 8px 16px 0 !important;
   width: auto !important;
-  border-radius: var(--kona-float-radius) !important;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
-}
-
-body header.js-head-main > .container-fluid > .row {
-  border-radius: var(--kona-float-radius) !important;
+  border-radius: 18px !important;
+  background-color: #f8f6f3 !important;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12) !important;
 }
 
 /* ============================================================
@@ -87,6 +82,9 @@ body header.js-head-main > .container-fluid > .row {
    En producto, categoría, etc. el header empuja el contenido
    como siempre.
 
+   AJUSTÁ EL -150px hasta que calce: si queda un hueco, hacelo
+   más negativo (-170px); si la foto tapa demasiado, menos (-120px).
+
    OJO: el módulo de imagen tiene un tamaño fijo (1580x600 en
    desktop, 820x1200 en celular), así que la foto no se "estira":
    se corre hacia arriba y su franja superior queda tapada por las
@@ -94,13 +92,20 @@ body header.js-head-main > .container-fluid > .row {
    re-encuadrarlas dejando ~150px de aire en la parte de arriba.
    ============================================================ */
 body.template-home .section-slider-home {
-  margin-top: calc(-1 * var(--kona-header-pull)) !important;
+  margin-top: -150px !important;
 }
 
 /* En celular el header es más bajo, así que sube menos */
 @media (max-width: 767px) {
-  :root {
-    --kona-header-pull: 110px;
-    --kona-float-gap: 10px;
+  body header.js-head-main .js-adbar {
+    margin: 8px 10px 0 !important;
+  }
+
+  body header.js-head-main > .container-fluid {
+    margin: 6px 10px 0 !important;
+  }
+
+  body.template-home .section-slider-home {
+    margin-top: -110px !important;
   }
 }
