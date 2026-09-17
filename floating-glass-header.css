@@ -22,6 +22,12 @@
 :root {
   --kona-glass-tint: 82, 39, 59;   /* #52273b en formato R,G,B */
   --kona-header-height: 64px;      /* altura común para header y barra de anuncios, ajustable */
+
+  /* Cuánto sube la imagen del home para meterse debajo del header:
+     alto de la barra de anuncios + alto del nav + su margen superior.
+     Si algún día apagás la barra de anuncios desde el panel, bajá
+     este valor a "calc(var(--kona-header-height) + 12px)". */
+  --kona-header-pull: calc(var(--kona-header-height) * 2 + 12px);
 }
 
 /* 1) OJO: la barra de anuncios (.js-adbar) vive ADENTRO del <header
@@ -59,29 +65,50 @@
 }
 
 /* ============================================================
-   OPCIONAL — Estirar la imagen del home hacia arriba, debajo
-   del header flotante.
+   ESTIRAR LA IMAGEN DEL HOME HACIA ARRIBA
    ============================================================
-   Sacamos el header del flujo normal (position: absolute), así
-   la imagen que sigue ya no lo "espera" y sube a ocupar ese
-   espacio. El header queda flotando ENCIMA de la imagen, y como
-   el nav tiene vidrio esmerilado, se va a ver la imagen difuminada
-   detrás del menú — el efecto típico de header sobre hero.
+   NO tocamos el "position" del header: sigue siendo el sticky
+   nativo del tema, con el mismo comportamiento de scroll y sin
+   JS nuevo. En vez de mover el header, subimos la imagen con un
+   margen negativo, así se mete por debajo del header flotante y
+   se ve difuminada a través del vidrio del menú.
 
-   Lo dejo limitado a "body.template-home" para que solo afecte al
-   home (donde tenés una imagen grande arriba de todo). En otras
-   páginas (producto, categoría, etc.) el header sigue empujando
-   el contenido normalmente, para no romper esas pantallas.
-
-   Ojo: al sacarlo del flujo con position:absolute, el header deja
-   de "seguirte" al hacer scroll (pierde el sticky que trae el
-   tema). Si querés que además se quede fijo arriba al bajar la
-   página, decime y lo sumamos con un poco de JS.
+   Limitado a "body.template-home" para que solo afecte al home.
+   En producto, categoría, etc. el header sigue empujando el
+   contenido como siempre.
    ============================================================ */
-body.template-home .js-head-main {
-  position: absolute !important;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 100;
+body.template-home .section-slider-home {
+  margin-top: calc(-1 * var(--kona-header-pull));
+}
+
+/* El header tiene que quedar PINTADO por encima del carrusel (la
+   imagen del slider trae z-index: 1 propio). z-index solo cambia
+   el orden de pintado: no afecta el sticky ni el scroll. */
+.js-head-main {
+  z-index: 200;
+}
+
+/* ============================================================
+   CONTRASTE AUTOMÁTICO DEL MENÚ (sin JS)
+   ============================================================
+   "mix-blend-mode: difference" hace que el navegador calcule el
+   color en tiempo real según lo que hay detrás: sobre zonas
+   oscuras de la foto las letras se ven claras, sobre zonas claras
+   se invierten a oscuras. Se recalcula solo mientras scrolleás o
+   cambia el slide.
+   ============================================================ */
+.js-head-main > .container-fluid a,
+.js-head-main > .container-fluid .menu-item,
+.js-head-main > .container-fluid svg {
+  color: #ffffff;
+  fill: #ffffff;
+  mix-blend-mode: difference;
+}
+
+/* El logo queda fuera del efecto: al ser una imagen, el blend le
+   invertiría los colores de la marca. */
+.js-head-main .logo-center,
+.js-head-main .logo-center a,
+.js-head-main .logo-center img {
+  mix-blend-mode: normal;
 }
