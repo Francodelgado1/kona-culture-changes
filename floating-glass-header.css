@@ -55,14 +55,23 @@ body header.js-head-main .js-adbar {
 }
 
 /* ============================================================
-   3) BARRA DE NAVEGACIÓN FLOTANTE
+   3) BARRA DE NAVEGACIÓN FLOTANTE CON EFECTO VIDRIO
    ============================================================
-   El color de fondo del menú venía del <header>, que ahora es
-   transparente — por eso hay que declararlo acá.
+   El efecto vidriado necesita DOS cosas juntas:
 
-   OJO: este #f8f6f3 es el "Color de fondo" de tu marca, copiado
-   del panel. Es el único valor duplicado: si algún día lo cambiás
-   en Tiendanube, actualizá también este número.
+   a) Un fondo SEMITRANSPARENTE. El rgba(248, 246, 243, 0.65) es
+      tu "Color de fondo" #f8f6f3 al 65% de opacidad. Si fuera
+      opaco no habría nada que ver por detrás y no habría efecto.
+      Subí el 0.65 (hacia 1) para más sólido, bajalo para más
+      transparente.
+
+   b) backdrop-filter: difumina lo que queda por detrás. Funciona
+      porque la imagen del home ahora pasa por debajo de la barra
+      (punto 4). El saturate(180%) levanta un poco los colores de
+      la foto, que el blur tiende a apagar.
+
+   Al ser un vidrio claro, el texto del menú sigue siendo oscuro y
+   se lee igual que siempre: no hace falta tocar ningún color.
 
    IMPORTANTE: acá NO va overflow: hidden — recortaría los menús
    desplegables ("SHOP ALL ˅", "Info ˅").
@@ -71,7 +80,12 @@ body header.js-head-main > .container-fluid {
   margin: 8px 16px 0 !important;
   width: auto !important;
   border-radius: 18px !important;
-  background-color: #f8f6f3 !important;
+
+  background-color: rgba(248, 246, 243, 0.65) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(180%) !important;
+  backdrop-filter: blur(18px) saturate(180%) !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12) !important;
 }
 
