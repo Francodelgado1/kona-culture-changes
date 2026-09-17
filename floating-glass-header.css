@@ -1,18 +1,21 @@
 /* ============================================================
-   HEADER FLOTANTE CON EFECTO VIDRIO (GLASSMORPHISM) — KONA CULTURE
+   HEADER FLOTANTE — KONA CULTURE
    ============================================================
    Qué hace:
-   1. Convierte TODO el header (barra de anuncios + barra de menú)
-      en un solo panel flotante, separado de los bordes y con
-      esquinas redondeadas.
-   2. Le aplica efecto vidrio esmerilado con el violeta de marca
-      (#52273b), dejando ver la foto difuminada por detrás.
-   3. Sube la imagen del home para que quede por debajo del panel.
+   1. Convierte la barra de anuncios y la barra de navegación en
+      dos barras flotantes: separadas de los bordes y con esquinas
+      redondeadas.
+   2. Cada una CONSERVA su color original del panel de Tiendanube
+      (la de anuncios su color de acento, la de navegación el
+      "Color de fondo" de tu marca). No se toca ningún color ni el
+      color de los textos, así el menú se sigue leyendo igual.
+   3. Sube la imagen del home para que quede por detrás de las
+      barras flotantes.
 
    Cómo aplicarlo:
    Panel de Tiendanube → Mi Tienda → Diseño → Personalizar plantilla
    → "CSS extra" / "Agregar CSS" → pegá este código DESPUÉS de
-   cualquier otro CSS personalizado que ya tengas (así no lo pisa).
+   cualquier otro CSS personalizado que ya tengas.
 
    NO toca el JS ni el "position" del header: conserva el sticky
    nativo del tema y su mismo comportamiento de scroll.
@@ -23,109 +26,81 @@
    ============================================================ */
 
 :root {
-  --kona-glass-tint: 82, 39, 59;   /* #52273b en formato R,G,B */
-  --kona-adbar-height: 40px;       /* alto de la barra de anuncios */
+  --kona-float-gap: 16px;      /* separación respecto a los bordes */
+  --kona-float-radius: 18px;   /* redondeo de las esquinas */
 
-  /* Cuánto sube la imagen del home para meterse debajo del panel.
-     AJUSTÁ ESTE NÚMERO hasta que calce justo: si queda un hueco
-     blanco, subilo; si la foto tapa demasiado, bajalo. */
+  /* Cuánto sube la imagen del home para meterse detrás de las barras.
+     AJUSTÁ ESTE NÚMERO hasta que calce: si queda un hueco, subilo;
+     si la foto tapa demasiado, bajalo. */
   --kona-header-pull: 150px;
 }
 
 /* ============================================================
-   1) EL PANEL FLOTANTE
-   ============================================================
-   Va sobre el <header class="js-head-main"> completo, que contiene
-   la barra de anuncios (.js-adbar) y el .container-fluid del
-   logo+menú.
-
-   IMPORTANTE: sin "display: flex" acá — si se lo ponemos, sus dos
-   hijos se acomodan uno al lado del otro en vez de apilados.
-   IMPORTANTE: sin "overflow: hidden" — recortaría los menús
-   desplegables. El border-radius solo ya redondea el fondo.
+   1) El header contenedor queda transparente, así entre las dos
+      barras flotantes se ve la foto de fondo.
+      El z-index lo deja pintado por encima del carrusel (que trae
+      z-index: 1 propio). z-index solo cambia el orden de pintado:
+      no afecta el sticky ni el scroll.
    ============================================================ */
 body header.js-head-main {
-  margin: 12px 16px 0 !important;
-  width: auto !important;
-  border-radius: 18px !important;
-  z-index: 200;
-
-  background-color: rgba(var(--kona-glass-tint), 0.55) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  backdrop-filter: blur(16px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18) !important;
-}
-
-/* 2) Los fondos propios de la barra de anuncios y de la fila del
-      menú se vuelven transparentes, para que se vea el vidrio del
-      panel a través de ellos y las dos barras queden integradas. */
-body header.js-head-main .js-adbar,
-body header.js-head-main .section-adbar,
-body header.js-head-main > .container-fluid {
   background: transparent !important;
-}
-
-/* 3) Alto de la barra de anuncios */
-body header.js-head-main .js-adbar {
-  min-height: var(--kona-adbar-height);
-  display: flex;
-  align-items: center;
+  z-index: 200;
 }
 
 /* ============================================================
-   4) LEGIBILIDAD DEL TEXTO
+   2) BARRA DE ANUNCIOS FLOTANTE
    ============================================================
-   El panel de vidrio violeta al 55% actúa como fondo oscuro
-   constante, así que texto claro siempre contrasta bien — es más
-   confiable que intentar invertir el color según la foto (ver la
-   alternativa al final del archivo).
+   Mantiene su color original. El overflow: hidden es necesario
+   para que el texto en movimiento (marquee) respete el redondeo.
    ============================================================ */
-body header.js-head-main a,
-body header.js-head-main .menu-item,
-body header.js-head-main svg,
-body header.js-head-main .adbar-message {
-  color: #ffffff !important;
-  fill: #ffffff !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
-}
-
-/* 5) El logo es una imagen en violeta oscuro: sobre el panel
-      oscuro no se leería, así que lo pasamos a blanco.
-      Si preferís mantenerlo en su color original, borrá este
-      bloque entero. */
-body header.js-head-main .logo-center img {
-  filter: brightness(0) invert(1);
+body header.js-head-main .js-adbar {
+  margin: 12px var(--kona-float-gap) 0 !important;
+  border-radius: var(--kona-float-radius) !important;
+  overflow: hidden;
 }
 
 /* ============================================================
-   6) LA IMAGEN DEL HOME SUBE DEBAJO DEL PANEL
+   3) BARRA DE NAVEGACIÓN FLOTANTE
+   ============================================================
+   Mantiene su color de fondo original. El redondeo se aplica
+   también a la fila interna, porque según el tema el color de
+   fondo puede estar en cualquiera de las dos.
+
+   IMPORTANTE: acá NO va overflow: hidden — recortaría los menús
+   desplegables ("SHOP ALL ˅", "Info ˅").
+   ============================================================ */
+body header.js-head-main > .container-fluid {
+  margin: 8px var(--kona-float-gap) 0 !important;
+  width: auto !important;
+  border-radius: var(--kona-float-radius) !important;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+
+body header.js-head-main > .container-fluid > .row {
+  border-radius: var(--kona-float-radius) !important;
+}
+
+/* ============================================================
+   4) LA IMAGEN DEL HOME SUBE DETRÁS DE LAS BARRAS
    ============================================================
    Limitado a "body.template-home" para que solo afecte al home.
    En producto, categoría, etc. el header empuja el contenido
    como siempre.
+
+   OJO: el módulo de imagen tiene un tamaño fijo (1580x600 en
+   desktop, 820x1200 en celular), así que la foto no se "estira":
+   se corre hacia arriba y su franja superior queda tapada por las
+   barras. Si tus fotos tienen algo importante arriba, conviene
+   re-encuadrarlas dejando ~150px de aire en la parte de arriba.
    ============================================================ */
 body.template-home .section-slider-home {
   margin-top: calc(-1 * var(--kona-header-pull)) !important;
 }
 
-/* ============================================================
-   ALTERNATIVA — CONTRASTE AUTOMÁTICO SEGÚN LA FOTO
-   ============================================================
-   Si querés que las letras se inviertan solas según lo que hay
-   detrás (claras sobre oscuro y oscuras sobre claro), se puede
-   con "mix-blend-mode", pero requiere que el vidrio esté casi
-   transparente: la capa violeta al 55% tapa la foto y el efecto
-   no llega a leerla.
-
-   Para probarlo: bajá el 0.55 del punto 1 a 0.10, borrá el punto
-   4, y descomentá esto:
-
-   body header.js-head-main a,
-   body header.js-head-main .menu-item,
-   body header.js-head-main svg {
-     color: #ffffff;
-     fill: #ffffff;
-     mix-blend-mode: difference;
-   }
-   ============================================================ */
+/* En celular el header es más bajo, así que sube menos */
+@media (max-width: 767px) {
+  :root {
+    --kona-header-pull: 110px;
+    --kona-float-gap: 10px;
+  }
+}
