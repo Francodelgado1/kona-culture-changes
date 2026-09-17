@@ -1,0 +1,80 @@
+/* ============================================================
+   BARRA / HEADER TRANSPARENTE SOBRE EL HERO — TIENDANUBE
+   ============================================================
+   Cómo aplicarlo:
+   1. Panel de Tiendanube → Mi Tienda → Diseño → Personalizar
+      plantilla → buscá el bloque "CSS extra" / "Agregar CSS"
+      (según el tema puede llamarse distinto) → pegá este código.
+   2. Los selectores de abajo (#header, .header-container, etc.)
+      son los más comunes en temas de Tiendanube, pero tu tema
+      puede usar otros nombres de clase. Para confirmarlos:
+      abrí tu tienda → F12 (DevTools) → clic derecho sobre tu
+      header actual → "Inspeccionar" → fijate qué clase/id tiene
+      el contenedor del header (igual que hiciste con la página
+      de EME Studios) y reemplazá el selector acá abajo.
+   3. Esto solo funciona bien si el header aparece ARRIBA de una
+      imagen o video grande (hero). Si tu home no tiene un banner
+      alto arriba de todo, "transparente" se va a ver simplemente
+      como header flotando sobre fondo blanco, no va a quedar el
+      efecto tipo EME Studios.
+   ============================================================ */
+
+/* 1) Sacamos el header del flujo normal para que flote SOBRE
+      el hero en lugar de empujarlo hacia abajo */
+#header,
+.header-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+
+  background-color: transparent;
+  border-bottom: none;
+  box-shadow: none;
+
+  /* efecto vidrio esmerilado, opcional */
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+/* 2) El hero necesita empezar en la parte superior real de la
+      página (no debajo del header) para que el header "flote" */
+.hero,
+.js-hero,
+.main-banner {
+  margin-top: 0;
+}
+
+/* 3) Textos/íconos del header en blanco para que se lean sobre
+      la foto (ajustá el color si tu hero es claro) */
+#header a,
+#header .menu-item,
+#header svg,
+.header-container a,
+.header-container svg {
+  color: #ffffff;
+  fill: #ffffff;
+}
+
+/* 4) Cuando el usuario hace scroll, el header deja de estar
+      sobre el hero y necesita fondo sólido para no quedar
+      invisible sobre el resto del contenido. Esta clase la
+      agrega el JS de abajo. */
+#header.is-scrolled,
+.header-container.is-scrolled {
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+#header.is-scrolled a,
+#header.is-scrolled svg,
+.header-container.is-scrolled a,
+.header-container.is-scrolled svg {
+  color: #111111;
+  fill: #111111;
+}
