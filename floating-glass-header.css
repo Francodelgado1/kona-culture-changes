@@ -2,113 +2,130 @@
    HEADER FLOTANTE CON EFECTO VIDRIO (GLASSMORPHISM) — KONA CULTURE
    ============================================================
    Qué hace:
-   1. Separa la barra de navegación (logo + menú) un poco de los
-      bordes de la plantilla, con esquinas redondeadas.
-   2. Le aplica un efecto "vidrio esmerilado" (blur + transparencia)
-      usando el violeta de marca que ya usás en la tienda (#52273b).
-   3. Deja la barra de anuncios (el marquee de arriba) tal cual está,
-      solo la empareja en altura con el nuevo header.
+   1. Convierte TODO el header (barra de anuncios + barra de menú)
+      en un solo panel flotante, separado de los bordes y con
+      esquinas redondeadas.
+   2. Le aplica efecto vidrio esmerilado con el violeta de marca
+      (#52273b), dejando ver la foto difuminada por detrás.
+   3. Sube la imagen del home para que quede por debajo del panel.
 
    Cómo aplicarlo:
    Panel de Tiendanube → Mi Tienda → Diseño → Personalizar plantilla
    → "CSS extra" / "Agregar CSS" → pegá este código DESPUÉS de
    cualquier otro CSS personalizado que ya tengas (así no lo pisa).
 
-   Nota: los altos usan "min-height" en vez de "height" para que si
-   algún día cambiás el texto de la barra de anuncios desde el panel
-   y ocupa más espacio, no se corte.
+   NO toca el JS ni el "position" del header: conserva el sticky
+   nativo del tema y su mismo comportamiento de scroll.
+
+   Todo el contenido (fotos del carrusel, textos, menú, logo,
+   mensajes de la barra de anuncios) se sigue editando normalmente
+   desde el panel de Tiendanube.
    ============================================================ */
 
 :root {
   --kona-glass-tint: 82, 39, 59;   /* #52273b en formato R,G,B */
-  --kona-header-height: 64px;      /* altura común para header y barra de anuncios, ajustable */
+  --kona-adbar-height: 40px;       /* alto de la barra de anuncios */
 
-  /* Cuánto sube la imagen del home para meterse debajo del header:
-     alto de la barra de anuncios + alto del nav + su margen superior.
-     Si algún día apagás la barra de anuncios desde el panel, bajá
-     este valor a "calc(var(--kona-header-height) + 12px)". */
-  --kona-header-pull: calc(var(--kona-header-height) * 2 + 12px);
+  /* Cuánto sube la imagen del home para meterse debajo del panel.
+     AJUSTÁ ESTE NÚMERO hasta que calce justo: si queda un hueco
+     blanco, subilo; si la foto tapa demasiado, bajalo. */
+  --kona-header-pull: 150px;
 }
 
-/* 1) OJO: la barra de anuncios (.js-adbar) vive ADENTRO del <header
-      class="js-head-main">, junto al .container-fluid del logo+menú.
-      Por eso el efecto va sobre ese .container-fluid puntual y NO
-      sobre el header entero — así no rompemos el apilado normal
-      (adbar arriba, nav abajo) que ya trae el tema. */
+/* ============================================================
+   1) EL PANEL FLOTANTE
+   ============================================================
+   Va sobre el <header class="js-head-main"> completo, que contiene
+   la barra de anuncios (.js-adbar) y el .container-fluid del
+   logo+menú.
 
-/* 2) Nav (logo + menú + iconos): lo separamos de los bordes,
-      esquinas redondeadas, y efecto vidrio con el violeta de marca */
-.js-head-main > .container-fluid {
-  margin: 12px 16px 0;
-  width: auto;
-  border-radius: 18px;
-  overflow: hidden;
-
-  min-height: var(--kona-header-height);
-  display: flex;
-  align-items: center;
+   IMPORTANTE: sin "display: flex" acá — si se lo ponemos, sus dos
+   hijos se acomodan uno al lado del otro en vez de apilados.
+   IMPORTANTE: sin "overflow: hidden" — recortaría los menús
+   desplegables. El border-radius solo ya redondea el fondo.
+   ============================================================ */
+body header.js-head-main {
+  margin: 12px 16px 0 !important;
+  width: auto !important;
+  border-radius: 18px !important;
+  z-index: 200;
 
   background-color: rgba(var(--kona-glass-tint), 0.55) !important;
   -webkit-backdrop-filter: blur(16px) saturate(160%);
   backdrop-filter: blur(16px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
-  transition: background-color 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18) !important;
 }
 
-/* 3) Barra de anuncios: se mantiene igual, solo empareja su altura
-      con el header nuevo. */
-.js-adbar {
-  min-height: var(--kona-header-height);
+/* 2) Los fondos propios de la barra de anuncios y de la fila del
+      menú se vuelven transparentes, para que se vea el vidrio del
+      panel a través de ellos y las dos barras queden integradas. */
+body header.js-head-main .js-adbar,
+body header.js-head-main .section-adbar,
+body header.js-head-main > .container-fluid {
+  background: transparent !important;
+}
+
+/* 3) Alto de la barra de anuncios */
+body header.js-head-main .js-adbar {
+  min-height: var(--kona-adbar-height);
   display: flex;
   align-items: center;
 }
 
 /* ============================================================
-   ESTIRAR LA IMAGEN DEL HOME HACIA ARRIBA
+   4) LEGIBILIDAD DEL TEXTO
    ============================================================
-   NO tocamos el "position" del header: sigue siendo el sticky
-   nativo del tema, con el mismo comportamiento de scroll y sin
-   JS nuevo. En vez de mover el header, subimos la imagen con un
-   margen negativo, así se mete por debajo del header flotante y
-   se ve difuminada a través del vidrio del menú.
-
-   Limitado a "body.template-home" para que solo afecte al home.
-   En producto, categoría, etc. el header sigue empujando el
-   contenido como siempre.
+   El panel de vidrio violeta al 55% actúa como fondo oscuro
+   constante, así que texto claro siempre contrasta bien — es más
+   confiable que intentar invertir el color según la foto (ver la
+   alternativa al final del archivo).
    ============================================================ */
-body.template-home .section-slider-home {
-  margin-top: calc(-1 * var(--kona-header-pull));
+body header.js-head-main a,
+body header.js-head-main .menu-item,
+body header.js-head-main svg,
+body header.js-head-main .adbar-message {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
 }
 
-/* El header tiene que quedar PINTADO por encima del carrusel (la
-   imagen del slider trae z-index: 1 propio). z-index solo cambia
-   el orden de pintado: no afecta el sticky ni el scroll. */
-.js-head-main {
-  z-index: 200;
+/* 5) El logo es una imagen en violeta oscuro: sobre el panel
+      oscuro no se leería, así que lo pasamos a blanco.
+      Si preferís mantenerlo en su color original, borrá este
+      bloque entero. */
+body header.js-head-main .logo-center img {
+  filter: brightness(0) invert(1);
 }
 
 /* ============================================================
-   CONTRASTE AUTOMÁTICO DEL MENÚ (sin JS)
+   6) LA IMAGEN DEL HOME SUBE DEBAJO DEL PANEL
    ============================================================
-   "mix-blend-mode: difference" hace que el navegador calcule el
-   color en tiempo real según lo que hay detrás: sobre zonas
-   oscuras de la foto las letras se ven claras, sobre zonas claras
-   se invierten a oscuras. Se recalcula solo mientras scrolleás o
-   cambia el slide.
+   Limitado a "body.template-home" para que solo afecte al home.
+   En producto, categoría, etc. el header empuja el contenido
+   como siempre.
    ============================================================ */
-.js-head-main > .container-fluid a,
-.js-head-main > .container-fluid .menu-item,
-.js-head-main > .container-fluid svg {
-  color: #ffffff;
-  fill: #ffffff;
-  mix-blend-mode: difference;
+body.template-home .section-slider-home {
+  margin-top: calc(-1 * var(--kona-header-pull)) !important;
 }
 
-/* El logo queda fuera del efecto: al ser una imagen, el blend le
-   invertiría los colores de la marca. */
-.js-head-main .logo-center,
-.js-head-main .logo-center a,
-.js-head-main .logo-center img {
-  mix-blend-mode: normal;
-}
+/* ============================================================
+   ALTERNATIVA — CONTRASTE AUTOMÁTICO SEGÚN LA FOTO
+   ============================================================
+   Si querés que las letras se inviertan solas según lo que hay
+   detrás (claras sobre oscuro y oscuras sobre claro), se puede
+   con "mix-blend-mode", pero requiere que el vidrio esté casi
+   transparente: la capa violeta al 55% tapa la foto y el efecto
+   no llega a leerla.
+
+   Para probarlo: bajá el 0.55 del punto 1 a 0.10, borrá el punto
+   4, y descomentá esto:
+
+   body header.js-head-main a,
+   body header.js-head-main .menu-item,
+   body header.js-head-main svg {
+     color: #ffffff;
+     fill: #ffffff;
+     mix-blend-mode: difference;
+   }
+   ============================================================ */
