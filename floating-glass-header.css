@@ -50,18 +50,38 @@
   transition: background-color 0.3s ease;
 }
 
-/* 3) Textos/íconos del nav en blanco para que se lean sobre el vidrio */
-.js-head-main > .container-fluid a,
-.js-head-main > .container-fluid .menu-item,
-.js-head-main > .container-fluid svg {
-  color: #ffffff;
-  fill: #ffffff;
-}
-
-/* 4) Barra de anuncios: se mantiene igual, solo empareja su altura
+/* 3) Barra de anuncios: se mantiene igual, solo empareja su altura
       con el header nuevo. */
 .js-adbar {
   min-height: var(--kona-header-height);
   display: flex;
   align-items: center;
+}
+
+/* ============================================================
+   OPCIONAL — Estirar la imagen del home hacia arriba, debajo
+   del header flotante.
+   ============================================================
+   Sacamos el header del flujo normal (position: absolute), así
+   la imagen que sigue ya no lo "espera" y sube a ocupar ese
+   espacio. El header queda flotando ENCIMA de la imagen, y como
+   el nav tiene vidrio esmerilado, se va a ver la imagen difuminada
+   detrás del menú — el efecto típico de header sobre hero.
+
+   Lo dejo limitado a "body.template-home" para que solo afecte al
+   home (donde tenés una imagen grande arriba de todo). En otras
+   páginas (producto, categoría, etc.) el header sigue empujando
+   el contenido normalmente, para no romper esas pantallas.
+
+   Ojo: al sacarlo del flujo con position:absolute, el header deja
+   de "seguirte" al hacer scroll (pierde el sticky que trae el
+   tema). Si querés que además se quede fijo arriba al bajar la
+   página, decime y lo sumamos con un poco de JS.
+   ============================================================ */
+body.template-home .js-head-main {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
 }
