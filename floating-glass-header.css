@@ -14,18 +14,14 @@
    → "CSS extra" / "Agregar CSS" → pegá este código DESPUÉS de
    cualquier otro CSS personalizado que ya tengas (así no lo pisa).
 
-   IMPORTANTE — confirmá un selector antes de pegar:
-   El selector de la barra de anuncios (".js-topbar" acá abajo) es
-   una suposición. Para confirmarlo: abrí tu tienda → F12 → clic
-   derecho sobre la barra de anuncios ("Más llevás, menos pagás...")
-   → Inspeccionar → fijate la clase/id del contenedor que la envuelve
-   y reemplazá ".js-topbar" por ese valor en las dos reglas donde
-   aparece.
+   Nota: los altos usan "min-height" en vez de "height" para que si
+   algún día cambiás el texto de la barra de anuncios desde el panel
+   y ocupa más espacio, no se corte.
    ============================================================ */
 
 :root {
   --kona-glass-tint: 82, 39, 59;   /* #52273b en formato R,G,B */
-  --kona-header-height: 64px;      /* altura común para header y topbar, ajustable */
+  --kona-header-height: 64px;      /* altura común para header y barra de anuncios, ajustable */
 }
 
 /* 1) Header: lo separamos de los bordes y le damos esquinas redondeadas */
@@ -35,7 +31,7 @@
   border-radius: 18px;
   overflow: hidden;
 
-  height: var(--kona-header-height);
+  min-height: var(--kona-header-height);
   display: flex;
   align-items: center;
 
@@ -62,9 +58,9 @@
 }
 
 /* 4) Barra de anuncios: se mantiene igual, solo empareja su altura
-      con el header nuevo. CONFIRMÁ el selector antes de usar. */
-.js-topbar {
-  height: var(--kona-header-height);
+      con el header nuevo. */
+.js-adbar {
+  min-height: var(--kona-header-height);
   display: flex;
   align-items: center;
 }
