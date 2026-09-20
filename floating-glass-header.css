@@ -63,7 +63,7 @@ body header.js-head-main .js-adbar {
   overflow: hidden !important;
 }
 
-/* 2b) Texto de la barra de anuncios: negrita y un punto más grande.
+/* 2b) Texto de la barra de anuncios: un punto más grande.
 
    Va sobre los .adbar-message (cada mensaje del marquee) y no sobre
    el contenedor, a propósito: el "em" se calcula contra el tamaño
@@ -72,9 +72,8 @@ body header.js-head-main .js-adbar {
    original (≈1pt). Si lo aplicáramos al contenedor, el em se
    mediría contra el tamaño del body y quedaría enorme.
 
-   Subí a 1.2em si lo querés más grande, o bajá a 1.05em. */
+   Subí a 1.15em si te queda corto. */
 body header.js-head-main .js-adbar .adbar-message {
-  font-weight: 700 !important;
   font-size: 1.1em !important;
 }
 
