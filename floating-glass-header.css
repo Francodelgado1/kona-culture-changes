@@ -191,3 +191,22 @@ body .desktop-dropdown .list-subitems {
    puede difuminar la página de atrás. Resultado: el panel queda
    semitransparente pero sin el esmerilado. Para compensar, bajar
    la opacidad del panel (0.85 → 0.75) hace más visible la foto. */
+
+/* ============================================================
+   6) EFECTO VIDRIO EN LOS TÍTULOS DE LOS BANNERS DE NOVEDADES
+   ============================================================
+   Estos bloques (.textbanner-text.over-image) ya traen del tema
+   un fondo semitransparente — background: var(--main-foreground-
+   opacity-40) — así que solo les falta el difuminado.
+
+   Acá el blur SÍ funciona de verdad: los banners están fuera del
+   header, sin ningún backdrop-filter padre que trabe el
+   anidamiento como pasa con el menú desplegable.
+
+   No se toca ni el fondo ni el color del texto: siguen siendo los
+   del tema, editables desde el panel.
+   ============================================================ */
+body .textbanner-text.over-image {
+  -webkit-backdrop-filter: blur(12px) saturate(160%) !important;
+  backdrop-filter: blur(12px) saturate(160%) !important;
+}
