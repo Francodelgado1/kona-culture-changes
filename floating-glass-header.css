@@ -176,3 +176,18 @@ body .modal-content {
 body .modal-body {
   background: transparent !important;
 }
+
+/* La lista de subcategorías trae fondo crema OPACO propio y pintaba
+   por encima del vidrio, tapándolo por completo. */
+body .desktop-dropdown .desktop-list-subitems,
+body .desktop-dropdown .list-subitems {
+  background: transparent !important;
+}
+
+/* OJO — limitación conocida: el panel desplegable cuelga del
+   .container-fluid, que ya tiene backdrop-filter. Cuando un
+   elemento con backdrop-filter contiene a otro, el navegador
+   limita al de adentro a su "backdrop root" y el de adentro no
+   puede difuminar la página de atrás. Resultado: el panel queda
+   semitransparente pero sin el esmerilado. Para compensar, bajar
+   la opacidad del panel (0.85 → 0.75) hace más visible la foto. */
