@@ -146,3 +146,33 @@ body.template-home .section-slider-home {
     margin-top: -110px !important;
   }
 }
+
+/* ============================================================
+   5) MISMO EFECTO VIDRIO EN LOS MENÚS DESPLEGABLES
+   ============================================================
+   .desktop-dropdown = panel de categorías que se abre desde
+   SHOP ALL / Info en desktop.
+   .modal-content    = menú hamburguesa en celular (es un modal).
+
+   Acá la opacidad es 0.85 y no 0.65 como en la barra de
+   navegación: son paneles con mucho texto y links sobre la foto,
+   y con más transparencia se vuelven difíciles de leer.
+
+   El .modal-body transparente es necesario: si conserva su fondo
+   propio, pinta por encima del vidrio y tapa el efecto.
+   ============================================================ */
+body .desktop-dropdown {
+  background-color: rgba(248, 246, 243, 0.85) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(180%) !important;
+  backdrop-filter: blur(18px) saturate(180%) !important;
+}
+
+body .modal-content {
+  background-color: rgba(248, 246, 243, 0.85) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(180%) !important;
+  backdrop-filter: blur(18px) saturate(180%) !important;
+}
+
+body .modal-body {
+  background: transparent !important;
+}
