@@ -1,0 +1,47 @@
+/* ============================================================
+   HEADER GLASS + BARRA DE ANUNCIOS (ADBAR) — TIENDANUBE
+   ============================================================ */
+
+body header.js-head-main {
+	background: transparent !important;
+	z-index: 200;
+}
+
+body header.js-head-main .js-adbar {
+	margin: 12px 16px 0 !important;
+	width: auto !important;
+	border-radius: 18px !important;
+	overflow: hidden !important;
+}
+
+body header.js-head-main>.container-fluid {
+	margin: 8px 16px 0 !important;
+	width: auto !important;
+	border-radius: 18px !important;
+	background-color: rgba(248, 246, 243, .65) !important;
+	backdrop-filter: blur(18px) saturate(180%) !important;
+	border: 1px solid rgba(255, 255, 255, .35) !important;
+	box-shadow: 0 6px 24px rgba(0, 0, 0, .12) !important;
+}
+
+body header.js-head-main .js-adbar .adbar-message {
+	font-size: 1.1em !important;
+}
+
+body.template-home .section-slider-home {
+	margin-top: -150px !important;
+}
+
+@media (max-width:767px) {
+	body header.js-head-main .js-adbar {
+		margin: 8px 10px 0 !important;
+	}
+
+	body header.js-head-main>.container-fluid {
+		margin: 6px 10px 0 !important;
+	}
+
+	body.template-home .section-slider-home {
+		margin-top: -110px !important;
+	}
+}

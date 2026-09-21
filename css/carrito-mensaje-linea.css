@@ -1,0 +1,75 @@
+/* ============================================================
+   CAJA DE DESCUENTO Y PROMESAS (ENVÍO/CAMBIOS) EN EL ITEM
+   DEL CARRITO — MANTIENE LAS ITERACIONES ORIGINALES; LAS
+   REGLAS POSTERIORES SOBRESCRIBEN A LAS ANTERIORES.
+   ============================================================ */
+
+.line-item-discount-product, #wpn-detail-container-promises-line-item-69176f23af5e5-115650 {
+	padding: 12px 14px;
+	margin-top: 10px;
+	border: 1px solid #e5e1e8;
+	border-radius: 6px;
+	background: #faf8fb;
+	line-height: 1.4em;
+}
+
+#wpn-detail-container-promises-line-item-69176f23af5e5-115650 {
+	margin-top: 6px;
+}
+
+.line-item-discount-product {
+	font-weight: 700;
+}
+
+.line-item-discount-product, #wpn-detail-container-promises-line-item-69176f23af5e5-115650 {
+	background: #f5f2f7;
+	border: 1px solid #e1dce8;
+	padding: 12px 16px;
+	border-radius: 8px;
+	margin-top: 15px;
+	text-align: center;
+}
+
+#wpn-detail-container-promises-line-item-69176f23af5e5-115650 {
+	margin-top: 0;
+	border-top: none;
+	padding-top: 0;
+}
+
+.line-item-discount-product {
+	font-weight: 700;
+	margin-bottom: 4px;
+}
+
+.line-item-discount-product+#wpn-detail-container-promises-line-item-69176f23af5e5-115650 {
+	padding-top: 4px;
+}
+
+.line-item-discount-product {
+	background: #f5f2f7;
+	border: 1px solid #e1dce8;
+	padding: 12px 16px 4px 16px;
+	border-radius: 8px;
+	margin-top: 15px;
+	text-align: center;
+	font-weight: 700;
+}
+
+#wpn-detail-container-promises-line-item-69176f23af5e5-115650 {
+	background: transparent !important;
+	border: none !important;
+	padding: 0 16px 10px 16px;
+	margin-top: 4px;
+	text-align: center;
+}
+
+#wpn-detail-container-promises-line-item-69176f23af5e5-115650::after {
+	content: "";
+	display: block;
+	height: 0;
+	margin-bottom: -8px;
+}
+
+.line-item-discount-product+#wpn-detail-container-promises-line-item-69176f23af5e5-115650 {
+	margin-top: -4px;
+}

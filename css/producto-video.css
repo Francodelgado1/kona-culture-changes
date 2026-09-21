@@ -1,0 +1,23 @@
+/* ============================================================
+   VIDEO EN EL SLIDER DE IMÁGENES DE PRODUCTO (FORMATO VERTICAL)
+   ============================================================ */
+
+.js-product-video-slide .product-video-container, .js-product-video-slide .product-video, .js-product-video-slide .embed-responsive {
+	height: 100% !important;
+	width: 100% !important;
+}
+
+.js-product-video-slide .embed-responsive-16by9 {
+	padding-bottom: 150% !important;
+	height: 0 !important;
+	position: relative !important;
+}
+
+.js-product-video-slide .embed-responsive-16by9 iframe, .js-product-video-slide .embed-responsive-16by9 video, .js-product-video-slide .embed-responsive-16by9 .js-video, .js-product-video-slide .embed-responsive-16by9>* {
+	position: absolute !important;
+	top: 0 !important;
+	left: 0 !important;
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover !important;
+}

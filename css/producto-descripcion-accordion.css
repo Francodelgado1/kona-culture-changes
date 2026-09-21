@@ -1,0 +1,95 @@
+/* ============================================================
+   DESCRIPCIÓN, DETALLES Y ACORDEÓN (CUIDADOS, ENVÍOS, ETC.)
+   EN LA FICHA DE PRODUCTO — CLASES "kona-*"
+   ============================================================ */
+
+.kona-description p {
+	font-size: 14px;
+	line-height: 1.6;
+	margin-bottom: 14px;
+}
+
+.kona-details {
+	padding-left: 0;
+	list-style: none;
+	font-size: 14px;
+}
+
+.kona-details li {
+	margin-bottom: 6px;
+}
+
+.kona-accordion {
+	margin-top: 30px;
+	border-top: 1px solid #eaeaea;
+}
+
+.kona-btn {
+	width: 100%;
+	background: none;
+	border: none;
+	text-align: left;
+	padding: 18px 0;
+	font-weight: 700;
+	font-size: 14px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	cursor: pointer;
+}
+
+.kona-btn span:first-child {
+	text-decoration: underline;
+}
+
+.kona-toggle {
+	font-size: 18px;
+	transition: .3s ease;
+}
+
+.kona-panel {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height .4s ease;
+	font-size: 14px;
+	line-height: 1.6;
+}
+
+.kona-panel.open {
+	max-height: 600px;
+	padding-bottom: 15px;
+}
+
+.kona-care-item {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 6px 0;
+}
+
+.kona-svg {
+	width: 18px;
+	height: 18px;
+}
+
+.kona-btn, .kona-btn span, .kona-btn:link, .kona-btn:visited, .kona-btn:active, .kona-btn:focus {
+	color: #000 !important;
+}
+
+.kona-title-static {
+	display: block;
+	width: 100%;
+	border-top: 1px solid #eaeaea;
+	padding: 18px 0;
+	margin-top: 30px;
+	font-weight: 700;
+	font-size: 14px;
+	color: #000 !important;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	line-height: 1.6;
+}
+
+.kona-title-static+p {
+	margin-top: 10px;
+}

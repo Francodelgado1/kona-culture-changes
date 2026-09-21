@@ -1,0 +1,79 @@
+/* ============================================================
+   ESTILOS DE ITEMS DEL MENÚ (DROP, BEST SELLERS, LAST CHANCE,
+   DÍA DEL AMIGO, SALE) — DESKTOP DROPDOWN Y MODAL MOBILE
+   ============================================================ */
+
+.desktop-dropdown .nav-list-link[href*="drop"], .desktop-dropdown .nav-list-link[href*="best-sellers"] {
+	font-size: 22px;
+	font-weight: 700;
+	letter-spacing: 3px;
+	padding-bottom: 4px;
+	color: #52273b;
+}
+
+.desktop-dropdown .nav-list-link[href*="last-chance"] {
+	font-size: 22px;
+	font-weight: 700;
+	letter-spacing: 3px;
+	padding-bottom: 4px;
+	color: #c40000 !important;
+	text-transform: uppercase;
+}
+
+.desktop-dropdown .nav-list-link[href*="dia-del-amigo"] {
+	font-size: 22px;
+	font-weight: 700;
+	letter-spacing: 3px;
+	padding-bottom: 4px;
+	color: #625f38 !important;
+	text-transform: uppercase;
+}
+
+.desktop-dropdown .nav-list-link[href*="sale"] {
+	font-size: 22px;
+	font-weight: 700;
+	letter-spacing: 3px;
+	padding-bottom: 4px;
+	color: #c40000 !important;
+	text-transform: uppercase;
+}
+
+.modal-body .nav-list-link[href*="drop"], .modal-body .nav-list-link[href*="best-sellers"] {
+	font-size: 20px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	display: block;
+	margin: 12px 0;
+	color: #52273b;
+}
+
+.modal-body .nav-list-link[href*="last-chance"] {
+	font-size: 20px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	display: block;
+	margin: 12px 0;
+	color: #c40000 !important;
+}
+
+.modal-body .nav-list-link[href*="dia-del-amigo"] {
+	font-size: 20px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	display: block;
+	margin: 12px 0;
+	color: #625f38 !important;
+}
+
+.modal-body .nav-list-link[href*="sale"] {
+	font-size: 20px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	display: block;
+	margin: 12px 0;
+	color: #c40000 !important;
+}

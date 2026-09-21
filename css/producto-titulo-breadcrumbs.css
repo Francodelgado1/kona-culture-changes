@@ -1,0 +1,21 @@
+/* ============================================================
+   TÍTULO DE PRODUCTO, MIGAS DE PAN Y BOTÓN AGREGAR AL CARRITO
+   ============================================================ */
+
+input.js-addtocart.js-prod-submit-form.btn.btn-primary.btn-block.mb-4.cart {
+	background-color: #52273b !important;
+}
+
+h1.js-product-name.h4 {
+	font-size: 22px !important;
+}
+
+section[data-store="page-title"] h1 {
+	color: #000 !important;
+	font-weight: 700;
+}
+
+.breadcrumbs .crumb.active {
+	color: #000 !important;
+	font-weight: 700;
+}
