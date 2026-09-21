@@ -1,0 +1,466 @@
+/* ============================================================
+   CSS ADAPTADO PARA EL DISEÑO IPANEMA (editor por secciones)
+   ============================================================
+   Este archivo migra el CSS custom que ya tenías en tu tema
+   anterior. Está organizado en 3 bloques según qué tan seguro
+   es que la regla siga funcionando igual en Ipanema:
+
+     [OK]        Selector estable (atributo data-store o clase
+                  .js-*). Tiendanube mantiene estos "anclajes"
+                  iguales en TODOS los temas a propósito, para
+                  que apps y CSS custom no se rompan al cambiar
+                  de diseño. No debería requerir cambios.
+
+     [VERIFICAR] Selector que depende de clases propias del
+                  tema anterior (estilo Bootstrap: .h6, .row,
+                  .btn, .mb-3, .container-fluid, etc.) o de
+                  orden de elementos (nth-child). Ipanema es un
+                  tema reconstruido y es probable que use otros
+                  nombres de clase. Dejé el selector original
+                  (no rompe nada si no matchea, simplemente no
+                  hace nada) + instrucciones para corregirlo.
+
+     [NATIVO]    Ipanema ya resuelve esto desde el panel de
+                  personalización (tipografía, colores, botón,
+                  header transparente, barra de anuncio). Antes
+                  de mantener el CSS, probá la config nativa:
+                  seguramente te da mejor resultado y con menos
+                  código para mantener.
+
+   Cómo aplicar esto en Ipanema:
+   Mi Tienda → Diseño → Personalizar → dentro de la sección que
+   corresponda, agregá un bloque tipo "Código" y pegá el CSS
+   envuelto en <style>...</style>. Si tu plan todavía muestra
+   una opción global de "Edición avanzada de CSS", también podés
+   pegarlo ahí tal cual (sin <style>, como ya hacías antes).
+
+   Cómo verificar un selector [VERIFICAR]:
+   1. Activá/previsualizá el borrador con diseño Ipanema.
+   2. Abrí la página en cuestión → F12 (DevTools).
+   3. Clic derecho sobre el elemento → "Inspeccionar".
+   4. Fijate la clase o atributo real del elemento y reemplazá
+      el selector de ese bloque acá abajo.
+   ============================================================ */
+
+
+/* ---------------------------------------------------------
+   1) BLOQUES [OK] — no deberían necesitar cambios
+   --------------------------------------------------------- */
+
+/* Etiqueta de promoción por cantidad (2x10%, 3x25%, etc.) */
+.js-promotion-label-private.label-accent {
+	background: rgba(107, 70, 94, .08) !important;
+	width: auto;
+	max-width: none;
+	padding: 8px 12px;
+	border-radius: 4px;
+}
+
+.js-promotion-label-private.label-accent span {
+	display: none !important;
+}
+
+.js-promotion-label-private.label-accent::before {
+	content: "Comprá en cantidad y ahorrás:";
+	display: block;
+	font-weight: 700;
+	color: #52273b;
+	text-transform: uppercase;
+	margin-bottom: 3px;
+}
+
+.js-promotion-label-private.label-accent::after {
+	content: "• 2 prendas → 10% OFF\A• 3 prendas → 25% OFF\A• 4 o más → 30% OFF";
+	white-space: pre-line;
+	display: block;
+	color: #000;
+	line-height: 1.4;
+}
+
+@media (max-width:768px) {
+	.js-promotion-label-private.label-accent::before,
+	.js-promotion-label-private.label-accent::after {
+		font-size: 9px;
+	}
+}
+
+/* Título de sección de precio (queda oculto por diseño propio) */
+.mb-2.h6.font-big.text-accent {
+	visibility: hidden;
+}
+/* ↳ [VERIFICAR también] la parte de arriba mezcla .mb-2/.h6 (ver
+   bloque 2) — dejé la regla porque si no matchea simplemente no
+   hace nada, no rompe el resto. */
+
+/* Nombre del producto */
+h1.js-product-name {
+	font-size: 22px !important;
+}
+
+/* Título de página (categoría, búsqueda, etc.) */
+section[data-store="page-title"] h1 {
+	color: #000 !important;
+	font-weight: 700;
+}
+
+/* Botón "Agregar al carrito" */
+.js-addtocart {
+	background-color: #52273b !important;
+}
+
+/* Precio con descuento por transferencia */
+.js-payment-discount-price-product-container {
+	color: #52273b !important;
+	font-weight: bold !important;
+	font-size: 18px;
+}
+
+/* Badge de promoción en la ficha de producto y en el listado */
+[data-store="product-item-promotion-label"] span {
+	font-size: 1.25em;
+	font-weight: 700;
+	color: #5b3a64;
+	text-transform: uppercase;
+	background: rgba(107, 70, 94, .08);
+	padding: .15em .35em;
+	border-radius: .25em;
+	display: inline-block;
+}
+
+[data-store="product-promotion-info"] span {
+	font-size: 1.3em;
+	font-weight: 700;
+	color: #5b3a64;
+	text-transform: uppercase;
+	background: rgba(107, 70, 94, .08);
+	padding: .15em .35em;
+	border-radius: .25em;
+	display: inline-block;
+}
+/* ↳ [VERIFICAR] si el texto no toma el estilo, es porque dentro
+   del data-store el span tiene otra clase (antes era .d-block y
+   .font-big.text-accent). Inspeccioná y agregá esa clase al
+   selector, o dejalo así: apuntar directo al span suele ser
+   suficiente. */
+
+/* Promoción de regalo (remera aniversario, etc.) */
+[data-store="product-gift-promotion"]>span {
+	font-size: 0 !important;
+}
+
+[data-store="product-gift-promotion"]>span::after {
+	content: "LLEVATE LA REMERA DEL ANIVERSARIO EN COMPRAS + $80.000";
+	font-size: 16px;
+	font-weight: 700;
+	color: #5b3a64;
+	line-height: 1.4;
+}
+
+
+/* ---------------------------------------------------------
+   2) BLOQUES [VERIFICAR] — probables cambios de clase en Ipanema
+   --------------------------------------------------------- */
+
+/* Fila de precios: separación y texto extra en el 2do renglón.
+   OJO: nth-child depende del ORDEN de los elementos, que puede
+   cambiar en Ipanema. Confirmá con DevTools cuál es el div del
+   "precio final" y cuál el de "precio de lista" antes de tocar
+   esto. */
+.js-price-container div:nth-child(4) {
+	margin-left: 20px !important;
+	padding: 5px 20px 5px 20px !important;
+}
+
+.js-price-container div:nth-child(4):after {
+	content: " | Puede ser combinable con cualquier producto de la tienda.";
+	white-space: pre-wrap;
+}
+
+.js-price-container div:nth-child(5) {
+	margin-left: 20px !important;
+	display: none !important;
+}
+
+/* Texto "Transferencia" al lado del precio con descuento.
+   Mismo tema: nth-child(2)/(3) depende del orden interno del
+   widget de pagos. Confirmá antes de reactivar. */
+.js-payment-discount-price-product-container span:nth-child(3) {
+	visibility: hidden !important;
+}
+
+.js-payment-discount-price-product-container span:nth-child(2):after {
+	content: " Transferencia";
+}
+
+/* Breadcrumbs (migas de pan) — nombres de clase propios del tema
+   anterior, muy probable que cambien en Ipanema. */
+.breadcrumbs .crumb.active {
+	color: #000 !important;
+	font-weight: 700;
+}
+
+/* Links del menú desktop y del menú mobile (modal) resaltados por
+   palabra clave en la URL. El truco de [href*="..."] es portable,
+   pero los contenedores (.desktop-dropdown, .modal-body,
+   .nav-list-link) son del tema anterior — el menú es justamente
+   una de las secciones que Ipanema rediseña por completo, así que
+   ESTE bloque es el que más probablemente necesite selectores
+   nuevos. */
+.desktop-dropdown .nav-list-link[href*="drop"],
+.desktop-dropdown .nav-list-link[href*="best-sellers"] {
+	font-size: 22px;
+	font-weight: 700;
+	letter-spacing: 3px;
+	padding-bottom: 4px;
+	color: #52273b;
+}
+
+.desktop-dropdown .nav-list-link[href*="last-chance"],
+.desktop-dropdown .nav-list-link[href*="sale"] {
+	font-size: 22px;
+	font-weight: 700;
+	letter-spacing: 3px;
+	padding-bottom: 4px;
+	color: #c40000 !important;
+	text-transform: uppercase;
+}
+
+.desktop-dropdown .nav-list-link[href*="dia-del-amigo"] {
+	font-size: 22px;
+	font-weight: 700;
+	letter-spacing: 3px;
+	padding-bottom: 4px;
+	color: #625f38 !important;
+	text-transform: uppercase;
+}
+
+.modal-body .nav-list-link[href*="drop"],
+.modal-body .nav-list-link[href*="best-sellers"] {
+	font-size: 20px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	display: block;
+	margin: 12px 0;
+	color: #52273b;
+}
+
+.modal-body .nav-list-link[href*="last-chance"],
+.modal-body .nav-list-link[href*="sale"] {
+	font-size: 20px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	display: block;
+	margin: 12px 0;
+	color: #c40000 !important;
+}
+
+.modal-body .nav-list-link[href*="dia-del-amigo"] {
+	font-size: 20px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	display: block;
+	margin: 12px 0;
+	color: #625f38 !important;
+}
+
+/* Widget de promesas de envío de la app (id con hash de instalación).
+   Este ID es generado por la app, no por el tema — puede cambiar
+   solo, con o sin cambio de tema. Confirmá el ID actual en el
+   HTML antes de reactivar este bloque. */
+.line-item-discount-product,
+#wpn-detail-container-promises-line-item-69176f23af5e5-115650 {
+	background: #f5f2f7;
+	border: 1px solid #e1dce8;
+	border-radius: 8px;
+	margin-top: 15px;
+	text-align: center;
+}
+
+.line-item-discount-product {
+	padding: 12px 16px 4px 16px;
+	font-weight: 700;
+	margin-bottom: 4px;
+}
+
+#wpn-detail-container-promises-line-item-69176f23af5e5-115650 {
+	background: transparent !important;
+	border: none !important;
+	padding: 0 16px 10px 16px;
+	margin-top: -4px;
+	text-align: center;
+}
+
+/* Video en el slider de producto — .embed-responsive-16by9 es
+   Bootstrap; si Ipanema usa otro slider de galería (probable),
+   este bloque necesita selectores nuevos. */
+.js-product-video-slide .product-video-container,
+.js-product-video-slide .product-video,
+.js-product-video-slide .embed-responsive {
+	height: 100% !important;
+	width: 100% !important;
+}
+
+.js-product-video-slide .embed-responsive-16by9 {
+	padding-bottom: 150% !important;
+	height: 0 !important;
+	position: relative !important;
+}
+
+.js-product-video-slide .embed-responsive-16by9 iframe,
+.js-product-video-slide .embed-responsive-16by9 video,
+.js-product-video-slide .embed-responsive-16by9 .js-video,
+.js-product-video-slide .embed-responsive-16by9>* {
+	position: absolute !important;
+	top: 0 !important;
+	left: 0 !important;
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover !important;
+}
+
+
+/* ---------------------------------------------------------
+   3) BLOQUES [NATIVO] — probá el panel de Ipanema antes que esto
+   --------------------------------------------------------- */
+
+/* Header flotante/transparente + barra de anuncio con blur.
+   Ipanema trae header transparente y barra de anuncio configurable
+   de forma NATIVA (Diseño → Personalizar → sección "Encabezado").
+   Probá esa configuración primero — si te da el resultado que
+   buscás, podés borrar transparent-header.css y transparent-header.js
+   del todo (no van a hacer falta). Dejo este bloque solo como
+   respaldo por si el plan/versión no incluye esa opción. */
+body header.js-head-main {
+	background: transparent !important;
+	z-index: 200;
+}
+
+body header.js-head-main .js-adbar {
+	margin: 12px 16px 0 !important;
+	width: auto !important;
+	border-radius: 18px !important;
+	overflow: hidden !important;
+}
+
+body header.js-head-main .js-adbar .adbar-message {
+	font-size: 1.1em !important;
+}
+
+@media (max-width:767px) {
+	body header.js-head-main .js-adbar {
+		margin: 8px 10px 0 !important;
+	}
+}
+/* ↳ El resto del hack original (.container-fluid, .section-slider-home
+   con margin-top negativo) dependía de clases del tema anterior para
+   simular el header flotando sobre el hero. Si la opción nativa de
+   Ipanema no te alcanza, avisame con el nombre de clase real del
+   contenedor del header y del slider en Ipanema y lo adapto. */
+
+
+/* ---------------------------------------------------------
+   4) SIN CAMBIOS — HTML/CSS propio, no depende del tema
+   --------------------------------------------------------- */
+
+/* Estas clases (.kona-*) son tuyas: las creaste vos para el
+   acordeón de "Descripción / Detalles / Cuidados" dentro del
+   contenido del producto. Como no dependen de ninguna clase del
+   tema, van a seguir funcionando igual en Ipanema siempre que
+   mantengas el mismo HTML pegado en la descripción del producto
+   (o, mejor todavía en Ipanema: podés moverlo a un bloque de
+   "Código" dedicado en la sección de producto). No hace falta
+   tocar nada de acá para abajo. */
+
+.kona-description p {
+	font-size: 14px;
+	line-height: 1.6;
+	margin-bottom: 14px;
+}
+
+.kona-details {
+	padding-left: 0;
+	list-style: none;
+	font-size: 14px;
+}
+
+.kona-details li {
+	margin-bottom: 6px;
+}
+
+.kona-accordion {
+	margin-top: 30px;
+	border-top: 1px solid #eaeaea;
+}
+
+.kona-btn {
+	width: 100%;
+	background: none;
+	border: none;
+	text-align: left;
+	padding: 18px 0;
+	font-weight: 700;
+	font-size: 14px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	cursor: pointer;
+}
+
+.kona-btn span:first-child {
+	text-decoration: underline;
+}
+
+.kona-btn, .kona-btn span, .kona-btn:link, .kona-btn:visited, .kona-btn:active, .kona-btn:focus {
+	color: #000 !important;
+}
+
+.kona-toggle {
+	font-size: 18px;
+	transition: .3s ease;
+}
+
+.kona-panel {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height .4s ease;
+	font-size: 14px;
+	line-height: 1.6;
+}
+
+.kona-panel.open {
+	max-height: 600px;
+	padding-bottom: 15px;
+}
+
+.kona-care-item {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 6px 0;
+}
+
+.kona-svg {
+	width: 18px;
+	height: 18px;
+}
+
+.kona-title-static {
+	display: block;
+	width: 100%;
+	border-top: 1px solid #eaeaea;
+	padding: 18px 0;
+	margin-top: 30px;
+	font-weight: 700;
+	font-size: 14px;
+	color: #000 !important;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	line-height: 1.6;
+}
+
+.kona-title-static+p {
+	margin-top: 10px;
+}
